@@ -19,18 +19,24 @@ let spritedata;
 function preload() {
   bearImg = loadImage("./assets/bear/idle.png");
   backgrounImg = loadImage("./assets/mountain.jpg");
+  obstacleImg0 = loadImage("./assets/obstacles/cave.png");
   obstacleImg1 = loadImage("./assets/obstacles/hill1.png");
   obstacleImg2 = loadImage("./assets/obstacles/hill2.png");
   obstacleImg3 = loadImage("./assets/obstacles/hill3.png");
   obstacleImg4 = loadImage("./assets/obstacles/hill4.png");
-  bhObj1 = loadImage("./assets/behindObjects/bh1.png");
-  bhObj2 = loadImage("./assets/behindObjects/bh2.png");
-  bhObj3 = loadImage("./assets/behindObjects/bh3.png");
-  bhObj4 = loadImage("./assets/behindObjects/bh4.png");
+  obstacleImg5 = loadImage("./assets/obstacles/cave2.png"); 
+  bhObj1 = loadImage("./assets/behindObjects/bh-1.png");
+  bhObj2 = loadImage("./assets/behindObjects/bh-2.png");
+  bhObj3 = loadImage("./assets/behindObjects/bh-3.png");
+  bhObj4 = loadImage("./assets/behindObjects/bh-4.png");
   spriteRundata = loadJSON("./sprites/run.json");
   spriteRunsheet = loadImage("./assets/bear/run.png");
   spriteJumpdata = loadJSON("./sprites/jump.json");
   spriteJumpsheet = loadImage("./assets/bear/jump.png");
+  spriteCrounchdata = loadJSON("./sprites/crounch.json");
+  spriteCrounchsheet = loadImage("./assets/bear/crounch.png")
+  control = loadImage("./assets/controls/ctrl.png");
+  spacebar = loadImage("./assets/controls/spacebar.png");
 }
 
 function reset() {
@@ -59,6 +65,7 @@ function keyPressed() {
 
 function draw() {
   let score = Math.floor((Date.now() - startTime) / 8);
+  background(backgrounImg);
 
   if (random(1) < spawnProbability) {
     obstacles.push(new Obstacle());
@@ -67,8 +74,6 @@ function draw() {
   if (random(1) < 0.012) {
     behindObjects.push(new BehindObject());
   }
-
-  background(backgrounImg);
 
   for (let b of behindObjects) {
     b.move();
@@ -85,7 +90,7 @@ function draw() {
   }
 
   if (keyIsDown(DOWN_ARROW) || keyIsDown(CONTROL)) {
-    bear.crunch();
+    bear.crounch();
   }
 
   strokeWeight(4);
@@ -103,9 +108,12 @@ function draw() {
 
   if (isGameOver) {
     strokeWeight(0);
-    textSize(16);
+    textSize(14);
     fill("#93A1AD");
-    text("Spacebar to Jump/Start Ctrl to Crunch", width / 2 - 150, height / 2);
+    image(control, 40, (height / 2) - 14, 108, 28);
+    text("to Jump/Start", 160, (height / 2) + 4);
+    image(spacebar, 260, (height / 2) - 14, 148, 28);
+    text("to Crunch", 420, (height / 2) + 4);
   }
 
   bear.show();

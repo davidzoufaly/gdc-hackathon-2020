@@ -7,6 +7,7 @@ class Bear {
     this.gravity = 1.2;
     this.runSprite = new Sprite(spriteRundata, spriteRunsheet, 0.1);
     this.jumpSprite = new Sprite(spriteJumpdata, spriteJumpsheet, 0.05);
+    this.crounchSprite = new Sprite(spriteCrounchdata, spriteCrounchsheet, 0.1);
     this.showedAnimation = this.runSprite;
   }
 
@@ -17,10 +18,9 @@ class Bear {
     }
   }
 
-  crunch() {
-    this.vy = 5;
+  crounch() {
     // TODO
-    console.log("crunch");
+    this.showedAnimation = this.crounchSprite;
   }
 
   hits(bar) {
@@ -34,7 +34,7 @@ class Bear {
   move() {
     this.y += this.vy;
     this.vy += this.gravity;
-    this.y = constrain(this.y, 0, height - this.r - 18);
+    this.y = constrain(this.y, 10, height - this.r - 18);
 
     if (this.y === height - this.r - 18) {
       this.showedAnimation = this.runSprite;
