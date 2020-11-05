@@ -1,3 +1,9 @@
+// TODO: OBSTACLES 2 SIZES
+// TODO: BEHIND OBJECTS DIFFERENT SIZES
+// TODO: CAVE
+// TODO: GAP
+// TODO: SPRITES
+
 let bear;
 let bearImg;
 let obstacleImg;
@@ -7,9 +13,11 @@ let behindObjects = [];
 let isGameOver = true;
 let spawnProbability = 0.008;
 let startTime = Date.now();
+let spritesheet;
+let spritedata;
 
 function preload() {
-  bearImg = loadImage("./assets/unicorn.png");
+  bearImg = loadImage("./assets/bear/idle.png");
   backgrounImg = loadImage("./assets/mountain.jpg");
   obstacleImg1 = loadImage("./assets/obstacles/hill1.png");
   obstacleImg2 = loadImage("./assets/obstacles/hill2.png");
@@ -19,6 +27,10 @@ function preload() {
   bhObj2 = loadImage("./assets/behindObjects/bh2.png");
   bhObj3 = loadImage("./assets/behindObjects/bh3.png");
   bhObj4 = loadImage("./assets/behindObjects/bh4.png");
+  spriteRundata = loadJSON("./sprites/run.json");
+  spriteRunsheet = loadImage("./assets/bear/run.png");
+  spriteJumpdata = loadJSON("./sprites/jump.json");
+  spriteJumpsheet = loadImage("./assets/bear/jump.png");
 }
 
 function reset() {
@@ -46,7 +58,7 @@ function keyPressed() {
 }
 
 function draw() {
-  let score = Math.floor((Date.now() - startTime) / 8)
+  let score = Math.floor((Date.now() - startTime) / 8);
 
   if (random(1) < spawnProbability) {
     obstacles.push(new Obstacle());
