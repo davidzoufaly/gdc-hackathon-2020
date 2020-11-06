@@ -4,31 +4,43 @@ class Bear {
     this.x = 50;
     this.y = height - this.r - 18;
     this.vy = 0;
-    this.gravity = 1.2;
+    this.gravity = 1.6;
     this.runSprite = new Sprite(spriteRundata, spriteRunsheet, 0.1);
     this.jumpSprite = new Sprite(spriteJumpdata, spriteJumpsheet, 0.05);
     this.crounchSprite = new Sprite(spriteCrounchdata, spriteCrounchsheet, 0.1);
-    this.showedAnimation = this.runSprite;
+    this.showedAnimation = this.crounchSprite;
+    this.crounchDiff = 0;
   }
 
   jump() {
     if (this.y == height - this.r - 18) {
-      this.vy = -22;
+      this.vy = -25;
       this.showedAnimation = this.jumpSprite;
     }
   }
 
   crounch() {
-    // TODO
-    this.showedAnimation = this.crounchSprite;
+    if (this.y == height - this.r - 18) {
+      this.crounchDiff = 20;
+      this.showedAnimation = this.crounchSprite;
+    }
   }
 
-  hits(bar) {
-    let x1 = this.x + this.r * 0.5;
-    let y1 = this.y + this.r * 0.5;
-    let x2 = bar.x + bar.r * 0.5;
-    let y2 = bar.y + bar.r * 0.5;
-    return collideCircleCircle(x1, y1, this.r, x2, y2, bar.r);
+  stand() {
+    this.crounchDiff = 0;
+  }
+
+  hits(obstacle) {
+    return collideRectRect(
+      this.x,
+      this.y + this.crounchDiff,
+      this.r,
+      this.r,
+      obstacle.x + 100,
+      obstacle.y,
+      obstacle.rw,
+      obstacle.rh
+    );
   }
 
   move() {

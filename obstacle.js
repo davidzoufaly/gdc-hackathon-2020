@@ -1,5 +1,5 @@
 function randomObstacle() {
-  const rnd = random([0, 1, 2, 3, 4, 5]);
+  const rnd = random([1, 2, 3, 4, 5, 6]);
 
   if (rnd === 1) {
     return obstacleImg1;
@@ -9,10 +9,10 @@ function randomObstacle() {
     return obstacleImg3;
   } else if (rnd === 4) {
     return obstacleImg4;
-  } else if (rnd === 0) {
-    return obstacleImg0;
   } else if (rnd === 5) {
     return obstacleImg5;
+  } else if (rnd === 6) {
+    return obstacleImg7;
   }
 }
 
@@ -20,8 +20,9 @@ class Obstacle {
   constructor() {
     this.obstacle = randomObstacle();
     this.x = width;
-    this.y = height - this.r - 18;
-    this.r = 70;
+    this.rw = this.obstacle.w;
+    this.rh = this.obstacle.h;
+    this.y = height - this.rh - 18 - this.obstacle.y || height - this.rh - 18;
   }
 
   move() {
@@ -29,6 +30,24 @@ class Obstacle {
   }
 
   show() {
-    image(this.obstacle, this.x, this.y, this.r, this.r);
+    if (this.obstacle === obstacleImg5 || this.obstacle === obstacleImg7) {
+      image(
+        obstacleImg6.img,
+        this.x,
+        height - obstacleImg6.h - 18,
+        obstacleImg6.w,
+        obstacleImg6.h
+      );
+
+      image(
+        obstacleImg0.img,
+        this.x + 100,
+        height - obstacleImg0.h - 18,
+        obstacleImg0.w,
+        obstacleImg0.h
+      );
+    }
+
+    image(this.obstacle.img, this.x + 100, this.y, this.rw, this.rh);
   }
 }

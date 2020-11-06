@@ -23,7 +23,5 @@ class Sprite {
     let index = floor(this.index) % animation.length;
     image(animation[index], x, y, r, r);
     this.index += this.speed;
-    fill('rgba(20,255,255,0.5)')
-    rect(x, y, r, r);
   }
 }

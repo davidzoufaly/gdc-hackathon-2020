@@ -14,10 +14,12 @@ function randomBehindObject() {
 
 class BehindObject {
   constructor() {
-    this.img = randomBehindObject();
-    this.r = random(1) < 0.5 ? 66 : 45;
+    this.isBig = random(1) > 0.5;
+    this.bhObj = randomBehindObject();
+    this.rw = this.isBig ? this.bhObj.w * 1.5 : this.bhObj.w;
+    this.rh = this.isBig ? this.bhObj.h * 1.5 : this.bhObj.h;
     this.x = width;
-    this.y = height - this.r - 18;
+    this.y = height - this.rh - 18;
   }
 
   move() {
@@ -25,6 +27,6 @@ class BehindObject {
   }
 
   show() {
-    image(this.img, this.x, this.y, this.r, this.r);
+    image(this.bhObj.img, this.x, this.y, this.rw, this.rh);
   }
 }

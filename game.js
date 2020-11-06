@@ -1,9 +1,3 @@
-// TODO: OBSTACLES 2 SIZES
-// TODO: BEHIND OBJECTS DIFFERENT SIZES
-// TODO: CAVE
-// TODO: GAP
-// TODO: SPRITES
-
 let bear;
 let bearImg;
 let obstacleImg;
@@ -19,22 +13,60 @@ let spritedata;
 function preload() {
   bearImg = loadImage("./assets/bear/idle.png");
   backgrounImg = loadImage("./assets/mountain.jpg");
-  obstacleImg0 = loadImage("./assets/obstacles/cave.png");
-  obstacleImg1 = loadImage("./assets/obstacles/hill1.png");
-  obstacleImg2 = loadImage("./assets/obstacles/hill2.png");
-  obstacleImg3 = loadImage("./assets/obstacles/hill3.png");
-  obstacleImg4 = loadImage("./assets/obstacles/hill4.png");
-  obstacleImg5 = loadImage("./assets/obstacles/cave2.png"); 
-  bhObj1 = loadImage("./assets/behindObjects/bh-1.png");
-  bhObj2 = loadImage("./assets/behindObjects/bh-2.png");
-  bhObj3 = loadImage("./assets/behindObjects/bh-3.png");
-  bhObj4 = loadImage("./assets/behindObjects/bh-4.png");
+  obstacleImg0 = {
+    img: loadImage("./assets/obstacles/cave.png"),
+    w: 90 * 2.8,
+    h: 96 * 2.8,
+  };
+  obstacleImg1 = {
+    img: loadImage("./assets/obstacles/hill1.png"),
+    w: 32 * 2,
+    h: 15 * 2,
+  };
+  obstacleImg2 = {
+    img: loadImage("./assets/obstacles/hill2.png"),
+    w: 34 * 2,
+    h: 13 * 2,
+  };
+  obstacleImg3 = {
+    img: loadImage("./assets/obstacles/hill3.png"),
+    w: 26 * 2,
+    h: 27 * 2,
+  };
+  obstacleImg4 = {
+    img: loadImage("./assets/obstacles/hill4.png"),
+    w: 36 * 2,
+    h: 33 * 2,
+  };
+  obstacleImg5 = {
+    img: loadImage("./assets/obstacles/topice.png"),
+    w: 90 * 2.8,
+    h: 96 * 2.8,
+    y: 62,
+    name: "topice",
+  };
+  obstacleImg7 = {
+    img: loadImage("./assets/obstacles/topice2.png"),
+    w: 90 * 2.8,
+    h: 96 * 2.8,
+    y: 62,
+    name: "topice",
+  };
+  obstacleImg6 = {
+    img: loadImage("./assets/obstacles/sign.png"),
+    w: 53,
+    h: 55,
+  };
+  bhObj1 = { img: loadImage("./assets/behindObjects/bh-1.png"), w: 44, h: 26 };
+  bhObj2 = { img: loadImage("./assets/behindObjects/bh-2.png"), w: 66, h: 74 };
+  bhObj3 = { img: loadImage("./assets/behindObjects/bh-3.png"), w: 59, h: 74 };
+  bhObj4 = { img: loadImage("./assets/behindObjects/bh-4.png"), w: 69, h: 50 };
   spriteRundata = loadJSON("./sprites/run.json");
   spriteRunsheet = loadImage("./assets/bear/run.png");
   spriteJumpdata = loadJSON("./sprites/jump.json");
   spriteJumpsheet = loadImage("./assets/bear/jump.png");
   spriteCrounchdata = loadJSON("./sprites/crounch.json");
-  spriteCrounchsheet = loadImage("./assets/bear/crounch.png")
+  spriteCrounchsheet = loadImage("./assets/bear/crounch.png");
   control = loadImage("./assets/controls/ctrl.png");
   spacebar = loadImage("./assets/controls/spacebar.png");
 }
@@ -54,7 +86,7 @@ function setup() {
 }
 
 function keyPressed() {
-  if (key == " " || keyCode == 16) {
+  if (key == " " || keyCode == UP_ARROW) {
     if (isGameOver) {
       reset();
     } else {
@@ -64,6 +96,15 @@ function keyPressed() {
 }
 
 function draw() {
+  console.log(obstacles);
+  if (obstacles.length > 5) {
+    obstacles.shift();
+  }
+
+  if (behindObjects.length > 10) {
+    behindObjects.shift();
+  }
+
   let score = Math.floor((Date.now() - startTime) / 8);
   background(backgrounImg);
 
@@ -91,7 +132,12 @@ function draw() {
 
   if (keyIsDown(DOWN_ARROW) || keyIsDown(CONTROL)) {
     bear.crounch();
+  } else {
+    bear.stand();
   }
+
+  bear.show();
+  bear.move();
 
   strokeWeight(4);
   stroke("#13b2e2");
@@ -110,12 +156,9 @@ function draw() {
     strokeWeight(0);
     textSize(14);
     fill("#93A1AD");
-    image(control, 40, (height / 2) - 14, 108, 28);
-    text("to Jump/Start", 160, (height / 2) + 4);
-    image(spacebar, 260, (height / 2) - 14, 148, 28);
-    text("to Crunch", 420, (height / 2) + 4);
+    image(control, 40, height / 2 - 14, 108, 28);
+    text("to Jump/Start", 160, height / 2 + 4);
+    image(spacebar, 260, height / 2 - 14, 148, 28);
+    text("to Crounch", 420, height / 2 + 4);
   }
-
-  bear.show();
-  bear.move();
 }
