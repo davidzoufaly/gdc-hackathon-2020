@@ -18,6 +18,10 @@ class Sprite {
     return animation;
   }
 
+  resetIndex() {
+    this.index = 0;
+  }
+
   show(x, y, r) {
     let animation = this.getAnimation(this.spritedata, this.spritesheet);
     let index = floor(this.index) % animation.length;

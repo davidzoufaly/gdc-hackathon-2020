@@ -6,16 +6,18 @@ class Bear {
     this.vy = 0;
     this.gravity = 1.6;
     this.runSprite = new Sprite(spriteRundata, spriteRunsheet, 0.1);
-    this.jumpSprite = new Sprite(spriteJumpdata, spriteJumpsheet, 0.05);
+    this.jumpSprite = new Sprite(spriteJumpdata, spriteJumpsheet, 0.125);
     this.crounchSprite = new Sprite(spriteCrounchdata, spriteCrounchsheet, 0.1);
-    this.showedAnimation = this.crounchSprite;
+    this.showedAnimation = this.runSprite;
     this.crounchDiff = 0;
+    this.index = 0;
   }
 
   jump() {
     if (this.y == height - this.r - 18) {
       this.vy = -25;
       this.showedAnimation = this.jumpSprite;
+      this.reset();
     }
   }
 
@@ -24,6 +26,10 @@ class Bear {
       this.crounchDiff = 20;
       this.showedAnimation = this.crounchSprite;
     }
+  }
+
+  reset() {
+    this.showedAnimation.resetIndex();
   }
 
   stand() {
@@ -36,7 +42,7 @@ class Bear {
       this.y + this.crounchDiff,
       this.r,
       this.r,
-      obstacle.x + 100,
+      obstacle.x,
       obstacle.y,
       obstacle.rw,
       obstacle.rh

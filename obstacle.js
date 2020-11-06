@@ -19,7 +19,7 @@ function randomObstacle() {
 class Obstacle {
   constructor() {
     this.obstacle = randomObstacle();
-    this.x = width;
+    this.x = width + 100;
     this.rw = this.obstacle.w;
     this.rh = this.obstacle.h;
     this.y = height - this.rh - 18 - this.obstacle.y || height - this.rh - 18;
@@ -33,7 +33,7 @@ class Obstacle {
     if (this.obstacle === obstacleImg5 || this.obstacle === obstacleImg7) {
       image(
         obstacleImg6.img,
-        this.x,
+        this.x - 100,
         height - obstacleImg6.h - 18,
         obstacleImg6.w,
         obstacleImg6.h
@@ -41,13 +41,13 @@ class Obstacle {
 
       image(
         obstacleImg0.img,
-        this.x + 100,
+        this.x,
         height - obstacleImg0.h - 18,
         obstacleImg0.w,
         obstacleImg0.h
       );
     }
 
-    image(this.obstacle.img, this.x + 100, this.y, this.rw, this.rh);
+    image(this.obstacle.img, this.x, this.y, this.rw, this.rh);
   }
 }
