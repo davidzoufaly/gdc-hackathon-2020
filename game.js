@@ -5,21 +5,23 @@ let backgroundImg;
 let obstacles = [];
 let behindObjects = [];
 let isGameOver = true;
-let spawnProbability = 0.008;
+let spawnTime = 2;
 let startTime = Date.now();
 let spritesheet;
 let spritedata;
+let time;
 
 function reset() {
   isGameOver = false;
   obstacles = [];
   behindObjects = [];
   startTime = Date.now();
+  time = null;
   loop();
 }
 
 function setup() {
-  createCanvas(514, 289);
+  createCanvas(714, 289);
   bear = new Bear();
   noLoop();
 }
@@ -38,20 +40,43 @@ function keyPressed() {
   }
 }
 
+// Harder over time
+function spawn(score) {
+  const def = 2500;
+  const variationNum = 500;
+  const minNumber = 1000;
+  let nextNumber = def - score / 3;
+
+  if (nextNumber > minNumber) {
+    return random(nextNumber, nextNumber + variationNum);
+  } else {
+    return random(minNumber, minNumber + variationNum);
+  }
+}
+
 function draw() {
+  const dateNow = Date.now();
+  const score = isGameOver ? 0 : Math.floor((dateNow - startTime) / 8);
+
+  // Optimalization
   if (obstacles.length > 5) {
     obstacles.shift();
   }
 
+  // Optimalization
   if (behindObjects.length > 10) {
     behindObjects.shift();
   }
 
-  let score = isGameOver ? 0 : Math.floor((Date.now() - startTime) / 8);
   background(backgrounImg);
 
-  if (random(1) < spawnProbability) {
+  if (!time) {
+    time = dateNow;
+  }
+
+  if (dateNow - time > spawn(score)) {
     obstacles.push(new Obstacle());
+    time = null;
   }
 
   if (random(1) < 0.012) {
@@ -61,11 +86,13 @@ function draw() {
   for (let b of behindObjects) {
     b.move();
     b.show();
+    b.speedUp(score);
   }
 
   for (let o of obstacles) {
     o.move();
     o.show();
+    o.speedUp(score);
     if (bear.hits(o)) {
       isGameOver = true;
       noLoop();
@@ -99,9 +126,9 @@ function draw() {
     textSize(14);
     fill("#93A1AD");
 
-    image(spacebar, 40, height / 2 - 14, 148, 28);
-    text("to Jump/Start", 200, height / 2 + 4);
-    image(control, 300, height / 2 - 14, 108, 28);
-    text("to Crouch", 420, height / 2 + 4);
+    image(spacebar, 140, height / 2 - 14, 148, 28);
+    text("to Jump/Start", 300, height / 2 + 4);
+    image(control, 400, height / 2 - 14, 108, 28);
+    text("to Crouch", 520, height / 2 + 4);
   }
 }

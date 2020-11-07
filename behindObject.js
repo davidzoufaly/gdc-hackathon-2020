@@ -19,11 +19,18 @@ class BehindObject {
     this.rw = this.isBig ? this.bhObj.w * 1.5 : this.bhObj.w;
     this.rh = this.isBig ? this.bhObj.h * 1.5 : this.bhObj.h;
     this.x = width;
+    this.speed = 0;
     this.y = height - this.rh - 18;
   }
 
+  speedUp(score) {
+    if (this.speed < 7) {
+      this.speed = 3.5 + score / 2000;
+    }
+  }
+
   move() {
-    this.x -= 3.5;
+    this.x -= this.speed;
   }
 
   show() {

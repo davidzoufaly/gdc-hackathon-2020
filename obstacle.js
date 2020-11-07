@@ -20,13 +20,20 @@ class Obstacle {
   constructor() {
     this.obstacle = randomObstacle();
     this.x = width + 100;
+    this.speed = 0;
     this.rw = this.obstacle.w;
     this.rh = this.obstacle.h;
     this.y = height - this.rh - 18 - this.obstacle.y || height - this.rh - 18;
   }
 
+  speedUp(score) {
+    if (this.speed < 15) {
+      this.speed = 7 + score / 1000;
+    }
+  }
+
   move() {
-    this.x -= 7;
+    this.x -= this.speed;
   }
 
   show() {
